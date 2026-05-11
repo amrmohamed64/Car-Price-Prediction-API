@@ -6,61 +6,61 @@
 'use strict';
 
 /* ─── Config ──────────────────────────────────────────────────────── */
-const API_BASE = 'http://127.0.0.1:8000';
+const API_BASE = 'https://car-price-prediction-api-ebjh.onrender.com';
 const API_PREDICT = `${API_BASE}/predict`;
-const API_HEALTH  = `${API_BASE}/`;
+const API_HEALTH = `${API_BASE}/`;
 
 /* ─── Demo payload matching the FastAPI CarFeatures schema ─────────── */
 const DEMO_DATA = {
-  CarName:          'toyota corolla',
-  fueltype:         'gas',
-  aspiration:       'std',
-  doornumber:       'four',
-  carbody:          'sedan',
-  drivewheel:       'fwd',
-  enginelocation:   'front',
-  enginetype:       'ohc',
-  cylindernumber:   'four',
-  fuelsystem:       'mpfi',
-  wheelbase:        98.8,
-  carlength:        168.8,
-  carwidth:         64.1,
-  carheight:        53.5,
-  curbweight:       2548,
-  enginesize:       130,
-  boreratio:        3.47,
-  stroke:           2.68,
+  CarName: 'toyota corolla',
+  fueltype: 'gas',
+  aspiration: 'std',
+  doornumber: 'four',
+  carbody: 'sedan',
+  drivewheel: 'fwd',
+  enginelocation: 'front',
+  enginetype: 'ohc',
+  cylindernumber: 'four',
+  fuelsystem: 'mpfi',
+  wheelbase: 98.8,
+  carlength: 168.8,
+  carwidth: 64.1,
+  carheight: 53.5,
+  curbweight: 2548,
+  enginesize: 130,
+  boreratio: 3.47,
+  stroke: 2.68,
   compressionratio: 9.0,
-  horsepower:       111,
-  peakrpm:          5000,
-  citympg:          21,
-  highwaympg:       27,
+  horsepower: 111,
+  peakrpm: 5000,
+  citympg: 21,
+  highwaympg: 27,
 };
 
 /* ─── DOM References ─────────────────────────────────────────────── */
-const form          = document.getElementById('predictionForm');
-const predictBtn    = document.getElementById('predictBtn');
-const btnLoader     = document.getElementById('btnLoader');
-const fillDemoBtn   = document.getElementById('fillDemoBtn');
-const resultCard    = document.getElementById('resultCard');
+const form = document.getElementById('predictionForm');
+const predictBtn = document.getElementById('predictBtn');
+const btnLoader = document.getElementById('btnLoader');
+const fillDemoBtn = document.getElementById('fillDemoBtn');
+const resultCard = document.getElementById('resultCard');
 const placeholderCard = document.getElementById('placeholderCard');
 
-const priceValue    = document.getElementById('priceValue');
-const resultBrand   = document.getElementById('resultBrand');
+const priceValue = document.getElementById('priceValue');
+const resultBrand = document.getElementById('resultBrand');
 const resultMessage = document.getElementById('resultMessage');
-const priceLow      = document.getElementById('priceLow');
-const priceHigh     = document.getElementById('priceHigh');
-const rangeFill     = document.getElementById('rangeFill');
-const rangeThumb    = document.getElementById('rangeThumb');
-const resultMeta    = document.getElementById('resultMeta');
+const priceLow = document.getElementById('priceLow');
+const priceHigh = document.getElementById('priceHigh');
+const rangeFill = document.getElementById('rangeFill');
+const rangeThumb = document.getElementById('rangeThumb');
+const resultMeta = document.getElementById('resultMeta');
 
-const apiStatusDot  = document.getElementById('apiStatusDot');
+const apiStatusDot = document.getElementById('apiStatusDot');
 const apiStatusText = document.getElementById('apiStatusText');
 
-const hamburger     = document.getElementById('hamburger');
-const mobileMenu    = document.getElementById('mobileMenu');
-const toast         = document.getElementById('toast');
-const toastMessage  = document.getElementById('toastMessage');
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+const toast = document.getElementById('toast');
+const toastMessage = document.getElementById('toastMessage');
 
 /* ─── Toast Notification ─────────────────────────────────────────── */
 let toastTimer = null;
@@ -72,11 +72,12 @@ function showToast(message, type = 'info') {
 
   /* Update icon based on type */
   const icon = toast.querySelector('.toast-icon');
-  icon.innerHTML = type === 'error'
-    ? '<circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M7 7l6 6M13 7l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>'
-    : type === 'success'
-    ? '<circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M6.5 10l2.5 2.5 4.5-4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>'
-    : '<circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v4m0 4h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>';
+  icon.innerHTML =
+    type === 'error'
+      ? '<circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M7 7l6 6M13 7l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>'
+      : type === 'success'
+        ? '<circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M6.5 10l2.5 2.5 4.5-4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>'
+        : '<circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v4m0 4h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>';
 
   requestAnimationFrame(() => toast.classList.add('show'));
   toastTimer = setTimeout(() => toast.classList.remove('show'), 4000);
@@ -91,7 +92,7 @@ hamburger.addEventListener('click', () => {
 });
 
 /* Close mobile menu on link click */
-mobileMenu.querySelectorAll('a').forEach(link => {
+mobileMenu.querySelectorAll('a').forEach((link) => {
   link.addEventListener('click', () => {
     hamburger.classList.remove('active');
     mobileMenu.classList.remove('open');
@@ -101,8 +102,8 @@ mobileMenu.querySelectorAll('a').forEach(link => {
 });
 
 /* ─── Smooth scroll offset for sticky nav ────────────────────────── */
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', e => {
+document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+  anchor.addEventListener('click', (e) => {
     const target = document.querySelector(anchor.getAttribute('href'));
     if (!target) return;
     e.preventDefault();
@@ -112,16 +113,19 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 /* ─── Intersection Observer — fade-in on scroll ──────────────────── */
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.style.animationPlayState = 'running';
-      observer.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.style.animationPlayState = 'running';
+        observer.unobserve(entry.target);
+      }
+    });
+  },
+  { threshold: 0.1, rootMargin: '0px 0px -40px 0px' },
+);
 
-document.querySelectorAll('.fade-in').forEach(el => {
+document.querySelectorAll('.fade-in').forEach((el) => {
   el.style.animationPlayState = 'paused';
   observer.observe(el);
 });
@@ -143,16 +147,19 @@ function animateCounter(el) {
   requestAnimationFrame(tick);
 }
 
-const counterObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      animateCounter(entry.target);
-      counterObserver.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.5 });
+const counterObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        animateCounter(entry.target);
+        counterObserver.unobserve(entry.target);
+      }
+    });
+  },
+  { threshold: 0.5 },
+);
 
-document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
+document.querySelectorAll('.counter').forEach((el) => counterObserver.observe(el));
 
 /* ─── API Health Check ───────────────────────────────────────────── */
 async function checkApiHealth() {
@@ -242,10 +249,17 @@ function validateForm() {
   });
 
   const selectFields = [
-    'fueltype', 'aspiration', 'doornumber', 'carbody',
-    'drivewheel', 'enginelocation', 'enginetype', 'cylindernumber', 'fuelsystem',
+    'fueltype',
+    'aspiration',
+    'doornumber',
+    'carbody',
+    'drivewheel',
+    'enginelocation',
+    'enginetype',
+    'cylindernumber',
+    'fuelsystem',
   ];
-  selectFields.forEach(name => {
+  selectFields.forEach((name) => {
     if (!getFieldValue(name)) {
       errors[name] = 'Required';
       valid = false;
@@ -253,7 +267,7 @@ function validateForm() {
   });
 
   /* Show/clear inline errors */
-  Object.keys(errors).forEach(name => {
+  Object.keys(errors).forEach((name) => {
     const errEl = document.getElementById(`${name}Error`);
     const inputEl = form.elements[name];
     if (inputEl) inputEl.classList.add('error');
@@ -261,7 +275,7 @@ function validateForm() {
   });
 
   /* Clear previous error styles for valid fields */
-  [...form.elements].forEach(el => {
+  [...form.elements].forEach((el) => {
     if (el.name && !errors[el.name]) {
       el.classList.remove('error');
       const errEl = document.getElementById(`${el.name}Error`);
@@ -275,29 +289,29 @@ function validateForm() {
 /* ─── Build Payload ──────────────────────────────────────────────── */
 function buildPayload() {
   return {
-    CarName:          getFieldValue('CarName'),
-    fueltype:         getFieldValue('fueltype'),
-    aspiration:       getFieldValue('aspiration'),
-    doornumber:       getFieldValue('doornumber'),
-    carbody:          getFieldValue('carbody'),
-    drivewheel:       getFieldValue('drivewheel'),
-    enginelocation:   getFieldValue('enginelocation'),
-    enginetype:       getFieldValue('enginetype'),
-    cylindernumber:   getFieldValue('cylindernumber'),
-    fuelsystem:       getFieldValue('fuelsystem'),
-    wheelbase:        parseFloat(getFieldValue('wheelbase')),
-    carlength:        parseFloat(getFieldValue('carlength')),
-    carwidth:         parseFloat(getFieldValue('carwidth')),
-    carheight:        parseFloat(getFieldValue('carheight')),
-    curbweight:       parseInt(getFieldValue('curbweight'), 10),
-    enginesize:       parseInt(getFieldValue('enginesize'), 10),
-    boreratio:        parseFloat(getFieldValue('boreratio')),
-    stroke:           parseFloat(getFieldValue('stroke')),
+    CarName: getFieldValue('CarName'),
+    fueltype: getFieldValue('fueltype'),
+    aspiration: getFieldValue('aspiration'),
+    doornumber: getFieldValue('doornumber'),
+    carbody: getFieldValue('carbody'),
+    drivewheel: getFieldValue('drivewheel'),
+    enginelocation: getFieldValue('enginelocation'),
+    enginetype: getFieldValue('enginetype'),
+    cylindernumber: getFieldValue('cylindernumber'),
+    fuelsystem: getFieldValue('fuelsystem'),
+    wheelbase: parseFloat(getFieldValue('wheelbase')),
+    carlength: parseFloat(getFieldValue('carlength')),
+    carwidth: parseFloat(getFieldValue('carwidth')),
+    carheight: parseFloat(getFieldValue('carheight')),
+    curbweight: parseInt(getFieldValue('curbweight'), 10),
+    enginesize: parseInt(getFieldValue('enginesize'), 10),
+    boreratio: parseFloat(getFieldValue('boreratio')),
+    stroke: parseFloat(getFieldValue('stroke')),
     compressionratio: parseFloat(getFieldValue('compressionratio')),
-    horsepower:       parseInt(getFieldValue('horsepower'), 10),
-    peakrpm:          parseInt(getFieldValue('peakrpm'), 10),
-    citympg:          parseInt(getFieldValue('citympg'), 10),
-    highwaympg:       parseInt(getFieldValue('highwaympg'), 10),
+    horsepower: parseInt(getFieldValue('horsepower'), 10),
+    peakrpm: parseInt(getFieldValue('peakrpm'), 10),
+    citympg: parseInt(getFieldValue('citympg'), 10),
+    highwaympg: parseInt(getFieldValue('highwaympg'), 10),
   };
 }
 
@@ -307,18 +321,18 @@ function displayResult(data) {
   const brand = data.brand;
 
   /* Estimate ±12% confidence range */
-  const low  = price * 0.88;
+  const low = price * 0.88;
   const high = price * 1.12;
   /* Position thumb at ~50% since model returns point estimate */
-  const pct  = 50;
+  const pct = 50;
 
   /* Animate price count-up */
   animatePriceCountUp(priceValue, price);
 
-  resultBrand.textContent  = brand.charAt(0).toUpperCase() + brand.slice(1);
+  resultBrand.textContent = brand.charAt(0).toUpperCase() + brand.slice(1);
   resultMessage.textContent = data.message;
 
-  priceLow.textContent  = formatCurrency(low);
+  priceLow.textContent = formatCurrency(low);
   priceHigh.textContent = formatCurrency(high);
 
   rangeFill.style.width = `${pct}%`;
@@ -332,7 +346,9 @@ function displayResult(data) {
     payload.cylindernumber + ' cyl',
     payload.drivewheel.toUpperCase(),
     payload.horsepower + ' hp',
-  ].map(t => `<span class="meta-tag">${t}</span>`).join('');
+  ]
+    .map((t) => `<span class="meta-tag">${t}</span>`)
+    .join('');
 
   /* Show result, hide placeholder */
   placeholderCard.hidden = true;
@@ -368,7 +384,7 @@ function formatCurrency(n) {
 }
 
 /* ─── Form Submit ────────────────────────────────────────────────── */
-form.addEventListener('submit', async e => {
+form.addEventListener('submit', async (e) => {
   e.preventDefault();
 
   if (!validateForm()) {
@@ -407,7 +423,6 @@ form.addEventListener('submit', async e => {
     /* Refresh API status after successful call */
     apiStatusDot.className = 'status-dot online';
     apiStatusText.textContent = 'Online';
-
   } catch (err) {
     if (err.name === 'AbortError') {
       showToast('Request timed out. Is the API server running?', 'error');
@@ -423,7 +438,7 @@ form.addEventListener('submit', async e => {
 });
 
 /* ─── Clear field errors on input ────────────────────────────────── */
-form.addEventListener('input', e => {
+form.addEventListener('input', (e) => {
   const el = e.target;
   if (!el.name) return;
   el.classList.remove('error');
@@ -432,11 +447,11 @@ form.addEventListener('input', e => {
 });
 
 /* ─── Micro-interaction: card tilt on mouse move ─────────────────── */
-document.querySelectorAll('.glass-card').forEach(card => {
-  card.addEventListener('mousemove', e => {
+document.querySelectorAll('.glass-card').forEach((card) => {
+  card.addEventListener('mousemove', (e) => {
     const rect = card.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width  - 0.5) * 4;
-    const y = ((e.clientY - rect.top)  / rect.height - 0.5) * 4;
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 4;
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 4;
     card.style.transform = `perspective(800px) rotateX(${-y}deg) rotateY(${x}deg) translateY(-2px)`;
   });
   card.addEventListener('mouseleave', () => {
@@ -446,8 +461,10 @@ document.querySelectorAll('.glass-card').forEach(card => {
 
 /* ─── Navbar shadow on scroll ────────────────────────────────────── */
 const navbar = document.querySelector('.navbar');
-window.addEventListener('scroll', () => {
-  navbar.style.boxShadow = window.scrollY > 10
-    ? '0 4px 24px rgba(0,0,0,0.3)'
-    : 'none';
-}, { passive: true });
+window.addEventListener(
+  'scroll',
+  () => {
+    navbar.style.boxShadow = window.scrollY > 10 ? '0 4px 24px rgba(0,0,0,0.3)' : 'none';
+  },
+  { passive: true },
+);
