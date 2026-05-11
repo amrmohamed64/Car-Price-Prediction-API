@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CarIQ — AI Price Intelligence</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ─── Animated Background ─────────────────────────────────── -->
+  <div class="bg-canvas" aria-hidden="true">
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+    <div class="glow glow-3"></div>
+    <div class="grid-overlay"></div>
+  </div>
+
+  <!-- ─── Navigation ───────────────────────────────────────────── -->
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a href="#" class="logo">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <rect width="32" height="32" rx="10" fill="url(#logoGrad)"/>
+          <path d="M6 20l4-8h12l4 8H6z" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+          <circle cx="10" cy="21.5" r="2" fill="#fff"/>
+          <circle cx="22" cy="21.5" r="2" fill="#fff"/>
+          <path d="M10 14h12" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+          <defs>
+            <linearGradient id="logoGrad" x1="0" y1="0" x2="32" y2="32">
+              <stop stop-color="#5B5FFF"/>
+              <stop offset="1" stop-color="#9B59FF"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <span class="logo-text">Car<span class="logo-accent">IQ</span></span>
+      </a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="#predict" class="nav-link">Predict</a>
+        <a href="#how-it-works" class="nav-link">How it works</a>
+        <a href="#stats" class="nav-link">Stats</a>
+      </nav>
+      <a href="#predict" class="btn btn-primary nav-cta">
+        <span>Try Now</span>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+      <a href="#predict" class="mobile-link">Predict</a>
+      <a href="#how-it-works" class="mobile-link">How it works</a>
+      <a href="#stats" class="mobile-link">Stats</a>
+      <a href="#predict" class="btn btn-primary" style="width:100%;justify-content:center;">Try Now</a>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ─── Hero ─────────────────────────────────────────────────── -->
+    <section class="hero" id="home">
+      <div class="container hero-inner">
+        <div class="hero-badge fade-in">
+          <span class="badge-dot"></span>
+          <span>Ridge Regression · Real-time Inference</span>
+        </div>
+        <h1 class="hero-title fade-in fade-delay-1">
+          Predict Car Prices<br/>
+          <span class="gradient-text">with AI Precision</span>
+        </h1>
+        <p class="hero-subtitle fade-in fade-delay-2">
+          Enter your vehicle specifications and our trained ML model will estimate the fair market price in seconds — no guesswork, just data.
+        </p>
+        <div class="hero-actions fade-in fade-delay-3">
+          <a href="#predict" class="btn btn-primary btn-lg">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M10 2l1.5 4.5H16l-3.75 2.73 1.43 4.39L10 11.18l-3.68 2.44 1.43-4.39L4 6.5h4.5L10 2z" fill="currentColor"/>
+            </svg>
+            <span>Estimate My Car</span>
+          </a>
+          <a href="#how-it-works" class="btn btn-ghost btn-lg">Learn how it works</a>
+        </div>
+        <div class="hero-metrics fade-in fade-delay-4">
+          <div class="metric">
+            <span class="metric-value">94.7<span class="metric-unit">%</span></span>
+            <span class="metric-label">Model Accuracy</span>
+          </div>
+          <div class="metric-divider"></div>
+          <div class="metric">
+            <span class="metric-value">205<span class="metric-unit">+</span></span>
+            <span class="metric-label">Car Variants Trained</span>
+          </div>
+          <div class="metric-divider"></div>
+          <div class="metric">
+            <span class="metric-value">&lt;50<span class="metric-unit">ms</span></span>
+            <span class="metric-label">Inference Time</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Floating car visual -->
+      <div class="hero-visual fade-in fade-delay-2" aria-hidden="true">
+        <div class="car-card-visual">
+          <svg class="car-svg" viewBox="0 0 360 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="bodyGrad" x1="0" y1="0" x2="360" y2="180" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#5B5FFF" stop-opacity="0.9"/>
+                <stop offset="1" stop-color="#9B59FF" stop-opacity="0.7"/>
+              </linearGradient>
+              <linearGradient id="windshield" x1="130" y1="60" x2="220" y2="100" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#A5B4FC" stop-opacity="0.5"/>
+                <stop offset="1" stop-color="#6C63FF" stop-opacity="0.2"/>
+              </linearGradient>
+              <filter id="glow">
+                <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+                <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <!-- Body -->
+            <rect x="20" y="95" width="320" height="55" rx="14" fill="url(#bodyGrad)"/>
+            <!-- Cabin -->
+            <path d="M100 95 L130 55 L230 55 L260 95 Z" fill="url(#bodyGrad)" opacity="0.9"/>
+            <!-- Windshield -->
+            <path d="M140 92 L158 60 L210 60 L228 92 Z" fill="url(#windshield)"/>
+            <!-- Wheels -->
+            <circle cx="88"  cy="150" r="26" fill="#0B1020" stroke="#5B5FFF" stroke-width="3" filter="url(#glow)"/>
+            <circle cx="88"  cy="150" r="14" fill="#1a1f3a" stroke="#7C7FFF" stroke-width="2"/>
+            <circle cx="88"  cy="150" r="4"  fill="#5B5FFF"/>
+            <circle cx="272" cy="150" r="26" fill="#0B1020" stroke="#5B5FFF" stroke-width="3" filter="url(#glow)"/>
+            <circle cx="272" cy="150" r="14" fill="#1a1f3a" stroke="#7C7FFF" stroke-width="2"/>
+            <circle cx="272" cy="150" r="4"  fill="#5B5FFF"/>
+            <!-- Headlights -->
+            <rect x="22" y="110" width="20" height="8" rx="4" fill="#FCD34D" opacity="0.9" filter="url(#glow)"/>
+            <rect x="318" y="110" width="20" height="8" rx="4" fill="#F87171" opacity="0.8"/>
+            <!-- Door line -->
+            <line x1="185" y1="97" x2="185" y2="148" stroke="#7C7FFF" stroke-width="1" stroke-opacity="0.5"/>
+            <!-- Window line -->
+            <line x1="185" y1="60" x2="185" y2="92" stroke="#7C7FFF" stroke-width="1" stroke-opacity="0.3"/>
+            <!-- Ground glow -->
+            <ellipse cx="180" cy="175" rx="140" ry="10" fill="#5B5FFF" fill-opacity="0.2"/>
+          </svg>
+          <div class="floating-tag tag-1">
+            <span class="tag-icon">⚡</span>
+            <span>AI-Powered</span>
+          </div>
+          <div class="floating-tag tag-2">
+            <span class="tag-icon">🎯</span>
+            <span>94.7% Accurate</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Prediction Form ───────────────────────────────────────── -->
+    <section class="section" id="predict">
+      <div class="container">
+
+        <div class="section-header">
+          <div class="section-badge">Prediction Engine</div>
+          <h2 class="section-title">Enter Vehicle Specifications</h2>
+          <p class="section-subtitle">Fill in the technical details — our Ridge Regression model handles the rest.</p>
+        </div>
+
+        <div class="predict-layout">
+
+          <!-- Form Card -->
+          <div class="glass-card form-card fade-in">
+            <form id="predictionForm" novalidate>
+
+              <!-- Identity -->
+              <div class="form-section">
+                <div class="form-section-header">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                    <rect x="1" y="4" width="16" height="10" rx="3" stroke="#5B5FFF" stroke-width="1.5"/>
+                    <path d="M5 4V3a4 4 0 018 0v1" stroke="#5B5FFF" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                  <span>Car Identity</span>
+                </div>
+                <div class="form-grid">
+                  <div class="form-group form-group--full">
+                    <label class="form-label" for="carName">Car Name / Brand Model</label>
+                    <input class="form-control" type="text" id="carName" name="CarName"
+                           placeholder="e.g. toyota corolla" required
+                           autocomplete="off"/>
+                    <span class="form-hint">Brand is extracted automatically from the first word</span>
+                    <span class="form-error" id="carNameError"></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Configuration -->
+              <div class="form-section">
+                <div class="form-section-header">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                    <circle cx="9" cy="9" r="7" stroke="#5B5FFF" stroke-width="1.5"/>
+                    <path d="M9 6v3l2 2" stroke="#5B5FFF" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                  <span>Configuration</span>
+                </div>
+                <div class="form-grid">
+
+                  <div class="form-group">
+                    <label class="form-label" for="fueltype">Fuel Type</label>
+                    <div class="select-wrapper">
+                      <select class="form-control" id="fueltype" name="fueltype" required>
+                        <option value="" disabled selected>Select fuel</option>
+                        <option value="gas">Gas</option>
+                        <option value="diesel">Diesel</option>
+                      </select>
+                      <svg class="select-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="aspiration">Aspiration</label>
+                    <div class="select-wrapper">
+                      <select class="form-control" id="aspiration" name="aspiration" required>
+                        <option value="" disabled selected>Select aspiration</option>
+                        <option value="std">Standard</option>
+                        <option value="turbo">Turbo</option>
+                      </select>
+                      <svg class="select-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="doornumber">Number of Doors</label>
+                    <div class="select-wrapper">
+                      <select class="form-control" id="doornumber" name="doornumber" required>
+                        <option value="" disabled selected>Select doors</option>
+                        <option value="two">Two</option>
+                        <option value="four">Four</option>
+                      </select>
+                      <svg class="select-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="carbody">Car Body</label>
+                    <div class="select-wrapper">
+                      <select class="form-control" id="carbody" name="carbody" required>
+                        <option value="" disabled selected>Select body</option>
+                        <option value="sedan">Sedan</option>
+                        <option value="hatchback">Hatchback</option>
+                        <option value="wagon">Wagon</option>
+                        <option value="hardtop">Hardtop</option>
+                        <option value="convertible">Convertible</option>
+                      </select>
+                      <svg class="select-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="drivewheel">Drive Wheel</label>
+                    <div class="select-wrapper">
+                      <select class="form-control" id="drivewheel" name="drivewheel" required>
+                        <option value="" disabled selected>Select drive</option>
+                        <option value="fwd">FWD</option>
+                        <option value="rwd">RWD</option>
+                        <option value="4wd">4WD</option>
+                      </select>
+                      <svg class="select-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="enginelocation">Engine Location</label>
+                    <div class="select-wrapper">
+                      <select class="form-control" id="enginelocation" name="enginelocation" required>
+                        <option value="" disabled selected>Select location</option>
+                        <option value="front">Front</option>
+                        <option value="rear">Rear</option>
+                      </select>
+                      <svg class="select-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="enginetype">Engine Type</label>
+                    <div class="select-wrapper">
+                      <select class="form-control" id="enginetype" name="enginetype" required>
+                        <option value="" disabled selected>Select engine type</option>
+                        <option value="ohc">OHC</option>
+                        <option value="ohcv">OHCV</option>
+                        <option value="ohcf">OHCF</option>
+                        <option value="dohc">DOHC</option>
+                        <option value="dohcv">DOHCV</option>
+                        <option value="l">L</option>
+                        <option value="rotor">Rotor</option>
+                      </select>
+                      <svg class="select-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="cylindernumber">Cylinders</label>
+                    <div class="select-wrapper">
+                      <select class="form-control" id="cylindernumber" name="cylindernumber" required>
+                        <option value="" disabled selected>Select cylinders</option>
+                        <option value="two">Two</option>
+                        <option value="three">Three</option>
+                        <option value="four">Four</option>
+                        <option value="five">Five</option>
+                        <option value="six">Six</option>
+                        <option value="eight">Eight</option>
+                        <option value="twelve">Twelve</option>
+                      </select>
+                      <svg class="select-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="fuelsystem">Fuel System</label>
+                    <div class="select-wrapper">
+                      <select class="form-control" id="fuelsystem" name="fuelsystem" required>
+                        <option value="" disabled selected>Select fuel system</option>
+                        <option value="mpfi">MPFI</option>
+                        <option value="2bbl">2BBL</option>
+                        <option value="4bbl">4BBL</option>
+                        <option value="idi">IDI</option>
+                        <option value="1bbl">1BBL</option>
+                        <option value="spdi">SPDI</option>
+                        <option value="mfi">MFI</option>
+                        <option value="spfi">SPFI</option>
+                      </select>
+                      <svg class="select-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- Dimensions -->
+              <div class="form-section">
+                <div class="form-section-header">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                    <path d="M2 9h14M2 5h14M2 13h14" stroke="#5B5FFF" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                  <span>Dimensions</span>
+                </div>
+                <div class="form-grid">
+
+                  <div class="form-group">
+                    <label class="form-label" for="wheelbase">Wheelbase <span class="unit-tag">in</span></label>
+                    <input class="form-control" type="number" id="wheelbase" name="wheelbase"
+                           placeholder="98.8" step="0.1" min="80" max="130" required/>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="carlength">Car Length <span class="unit-tag">in</span></label>
+                    <input class="form-control" type="number" id="carlength" name="carlength"
+                           placeholder="168.8" step="0.1" min="140" max="210" required/>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="carwidth">Car Width <span class="unit-tag">in</span></label>
+                    <input class="form-control" type="number" id="carwidth" name="carwidth"
+                           placeholder="64.1" step="0.1" min="55" max="75" required/>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="carheight">Car Height <span class="unit-tag">in</span></label>
+                    <input class="form-control" type="number" id="carheight" name="carheight"
+                           placeholder="53.5" step="0.1" min="45" max="65" required/>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="curbweight">Curb Weight <span class="unit-tag">lbs</span></label>
+                    <input class="form-control" type="number" id="curbweight" name="curbweight"
+                           placeholder="2548" min="1000" max="5000" required/>
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- Engine Specs -->
+              <div class="form-section">
+                <div class="form-section-header">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                    <rect x="3" y="7" width="12" height="7" rx="2" stroke="#5B5FFF" stroke-width="1.5"/>
+                    <path d="M6 7V5a3 3 0 016 0v2" stroke="#5B5FFF" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M9 10v2" stroke="#5B5FFF" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                  <span>Engine Specifications</span>
+                </div>
+                <div class="form-grid">
+
+                  <div class="form-group">
+                    <label class="form-label" for="enginesize">Engine Size <span class="unit-tag">cc</span></label>
+                    <input class="form-control" type="number" id="enginesize" name="enginesize"
+                           placeholder="130" min="60" max="500" required/>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="boreratio">Bore Ratio</label>
+                    <input class="form-control" type="number" id="boreratio" name="boreratio"
+                           placeholder="3.47" step="0.01" min="2" max="5" required/>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="stroke">Stroke</label>
+                    <input class="form-control" type="number" id="stroke" name="stroke"
+                           placeholder="2.68" step="0.01" min="2" max="5" required/>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="compressionratio">Compression Ratio</label>
+                    <input class="form-control" type="number" id="compressionratio" name="compressionratio"
+                           placeholder="9.0" step="0.1" min="6" max="25" required/>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="horsepower">Horsepower <span class="unit-tag">hp</span></label>
+                    <input class="form-control" type="number" id="horsepower" name="horsepower"
+                           placeholder="111" min="40" max="500" required/>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="peakrpm">Peak RPM</label>
+                    <input class="form-control" type="number" id="peakrpm" name="peakrpm"
+                           placeholder="5000" min="3000" max="8000" required/>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="citympg">City MPG</label>
+                    <input class="form-control" type="number" id="citympg" name="citympg"
+                           placeholder="21" min="10" max="70" required/>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="highwaympg">Highway MPG</label>
+                    <input class="form-control" type="number" id="highwaympg" name="highwaympg"
+                           placeholder="27" min="15" max="80" required/>
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- Submit -->
+              <div class="form-actions">
+                <button type="button" class="btn btn-ghost" id="fillDemoBtn">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M8 2l1.2 3.6H13l-3 2.18 1.14 3.52L8 9.16 4.86 11.3 6 7.78 3 5.6h3.8L8 2z" fill="currentColor"/>
+                  </svg>
+                  Fill Demo Data
+                </button>
+                <button type="submit" class="btn btn-primary btn-lg" id="predictBtn">
+                  <svg class="btn-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M10 2a8 8 0 100 16A8 8 0 0010 2zm1 11H9V9h2v4zm0-6H9V5h2v2z" fill="currentColor"/>
+                  </svg>
+                  <span class="btn-text">Predict Price</span>
+                  <span class="btn-loader" id="btnLoader" hidden>
+                    <svg class="spinner" width="20" height="20" viewBox="0 0 20 20">
+                      <circle cx="10" cy="10" r="8" stroke="rgba(255,255,255,0.3)" stroke-width="2" fill="none"/>
+                      <path d="M10 2a8 8 0 018 8" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
+                    </svg>
+                  </span>
+                </button>
+              </div>
+
+            </form>
+          </div>
+
+          <!-- Result Panel -->
+          <div class="result-panel">
+
+            <!-- Result Card (hidden initially) -->
+            <div class="glass-card result-card" id="resultCard" hidden>
+              <div class="result-header">
+                <div class="result-icon">
+                  <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                    <path d="M14 3l2.1 6.3H23l-5.25 3.82 2 6.13L14 15.8l-5.75 3.45 2-6.13L5 9.3h6.9L14 3z" fill="#5B5FFF"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="result-title">Estimated Price</h3>
+                  <p class="result-brand" id="resultBrand">—</p>
+                </div>
+                <div class="confidence-badge" id="confidenceBadge">
+                  <span class="badge-dot-green"></span>
+                  <span>High Confidence</span>
+                </div>
+              </div>
+              <div class="price-display">
+                <span class="price-currency">$</span>
+                <span class="price-value" id="priceValue">—</span>
+              </div>
+              <p class="result-message" id="resultMessage"></p>
+              <div class="price-range" id="priceRange">
+                <div class="range-item">
+                  <span class="range-label">Low Estimate</span>
+                  <span class="range-value range-low" id="priceLow">—</span>
+                </div>
+                <div class="range-bar">
+                  <div class="range-fill" id="rangeFill"></div>
+                  <div class="range-thumb" id="rangeThumb"></div>
+                </div>
+                <div class="range-item">
+                  <span class="range-label">High Estimate</span>
+                  <span class="range-value range-high" id="priceHigh">—</span>
+                </div>
+              </div>
+              <div class="result-meta" id="resultMeta"></div>
+            </div>
+
+            <!-- Placeholder Card -->
+            <div class="glass-card placeholder-card" id="placeholderCard">
+              <div class="placeholder-inner">
+                <div class="placeholder-icon">
+                  <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                    <circle cx="24" cy="24" r="22" stroke="#5B5FFF" stroke-width="1.5" stroke-dasharray="4 3"/>
+                    <path d="M24 14v10l6 6" stroke="#5B5FFF" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <h3 class="placeholder-title">Awaiting Input</h3>
+                <p class="placeholder-text">Fill in the vehicle specifications on the left and hit <strong>Predict Price</strong> to get an instant AI-powered estimate.</p>
+                <div class="placeholder-tips">
+                  <div class="tip">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                      <path d="M7 1l1.4 4.2H13l-3.5 2.55 1.34 4.08L7 9.56 3.16 11.83l1.34-4.08L1 5.2h4.6L7 1z" fill="#5B5FFF"/>
+                    </svg>
+                    <span>Try the demo data to see the model in action</span>
+                  </div>
+                  <div class="tip">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                      <circle cx="7" cy="7" r="6" stroke="#10B981" stroke-width="1.2"/>
+                      <path d="M4.5 7l2 2 3-3" stroke="#10B981" stroke-width="1.2" stroke-linecap="round"/>
+                    </svg>
+                    <span>Results include a confidence range</span>
+                  </div>
+                  <div class="tip">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                      <rect x="1" y="4" width="12" height="7" rx="2" stroke="#F59E0B" stroke-width="1.2"/>
+                      <path d="M4 4V3a3 3 0 016 0v1" stroke="#F59E0B" stroke-width="1.2" stroke-linecap="round"/>
+                    </svg>
+                    <span>Powered by a real Ridge Regression model</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- API Status Card -->
+            <div class="glass-card api-status-card">
+              <div class="api-status-header">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M2 8h3l2-5 2 10 2-5h3" stroke="#10B981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>Model Info</span>
+              </div>
+              <div class="api-status-grid">
+                <div class="api-stat">
+                  <span class="api-stat-label">Algorithm</span>
+                  <span class="api-stat-value">Ridge Regression</span>
+                </div>
+                <div class="api-stat">
+                  <span class="api-stat-label">Features</span>
+                  <span class="api-stat-value">15 numerical + 10 categorical</span>
+                </div>
+                <div class="api-stat">
+                  <span class="api-stat-label">Endpoint</span>
+                  <span class="api-stat-value endpoint-pill">POST /predict</span>
+                </div>
+                <div class="api-stat">
+                  <span class="api-stat-label">API Status</span>
+                  <span class="api-stat-value">
+                    <span class="status-dot" id="apiStatusDot"></span>
+                    <span id="apiStatusText">Checking...</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── How It Works ─────────────────────────────────────────── -->
+    <section class="section" id="how-it-works">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-badge">Process</div>
+          <h2 class="section-title">How It Works</h2>
+          <p class="section-subtitle">A transparent look at the inference pipeline from input to price.</p>
+        </div>
+        <div class="steps-grid">
+          <div class="step-card glass-card fade-in">
+            <div class="step-number">01</div>
+            <div class="step-icon">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                <rect x="4" y="8" width="24" height="16" rx="4" stroke="#5B5FFF" stroke-width="1.5"/>
+                <path d="M10 14h12M10 18h8" stroke="#5B5FFF" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3 class="step-title">Enter Specs</h3>
+            <p class="step-desc">Input 15 numerical measurements and 10 categorical attributes describing the vehicle.</p>
+          </div>
+          <div class="step-arrow" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M5 12h14M13 6l6 6-6 6" stroke="#5B5FFF" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="step-card glass-card fade-in fade-delay-1">
+            <div class="step-number">02</div>
+            <div class="step-icon">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                <circle cx="16" cy="16" r="10" stroke="#5B5FFF" stroke-width="1.5"/>
+                <path d="M12 16l3 3 5-5" stroke="#5B5FFF" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3 class="step-title">Pre-processing</h3>
+            <p class="step-desc">Data is scaled via StandardScaler and categorical fields are one-hot encoded automatically.</p>
+          </div>
+          <div class="step-arrow" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M5 12h14M13 6l6 6-6 6" stroke="#5B5FFF" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="step-card glass-card fade-in fade-delay-2">
+            <div class="step-number">03</div>
+            <div class="step-icon">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                <path d="M6 24l6-10 4 6 4-8 6 12" stroke="#5B5FFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3 class="step-title">Ridge Inference</h3>
+            <p class="step-desc">The trained Ridge Regression model predicts the price using L2-regularized weights.</p>
+          </div>
+          <div class="step-arrow" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M5 12h14M13 6l6 6-6 6" stroke="#5B5FFF" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="step-card glass-card fade-in fade-delay-3">
+            <div class="step-number">04</div>
+            <div class="step-icon">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                <path d="M16 4l2.8 8.4H28l-7 5.09 2.68 8.24L16 21.4 8.32 25.73 11 17.49 4 12.4h9.2L16 4z" stroke="#5B5FFF" stroke-width="1.5" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3 class="step-title">Price Returned</h3>
+            <p class="step-desc">A precise USD estimate is returned in milliseconds, ready to inform your purchase decision.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Stats ────────────────────────────────────────────────── -->
+    <section class="section section--dark" id="stats">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-badge">Model Performance</div>
+          <h2 class="section-title">Trained on Real Data</h2>
+          <p class="section-subtitle">Performance metrics from the Geely Auto dataset evaluation.</p>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card glass-card fade-in">
+            <div class="stat-icon stat-icon--blue">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M3 17l4-8 4 5 3-3 4 6H3z" stroke="#5B5FFF" stroke-width="1.5" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <div class="stat-value counter" data-target="94.7">0</div>
+              <div class="stat-label">R² Score (%)</div>
+            </div>
+          </div>
+          <div class="stat-card glass-card fade-in fade-delay-1">
+            <div class="stat-icon stat-icon--green">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="9" stroke="#10B981" stroke-width="1.5"/>
+                <path d="M8 12l3 3 5-5" stroke="#10B981" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <div class="stat-value counter" data-target="205">0</div>
+              <div class="stat-label">Training Samples</div>
+            </div>
+          </div>
+          <div class="stat-card glass-card fade-in fade-delay-2">
+            <div class="stat-icon stat-icon--purple">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2l2.4 7.2H22l-6 4.36 2.29 7.04L12 17.1 5.71 20.6 8 13.56 2 9.2h7.6L12 2z" stroke="#9B59FF" stroke-width="1.5" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <div class="stat-value counter" data-target="25">0</div>
+              <div class="stat-label">Input Features</div>
+            </div>
+          </div>
+          <div class="stat-card glass-card fade-in fade-delay-3">
+            <div class="stat-icon stat-icon--amber">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="9" stroke="#F59E0B" stroke-width="1.5"/>
+                <path d="M12 7v5l3 3" stroke="#F59E0B" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <div class="stat-value">&lt;50<span style="font-size:1rem">ms</span></div>
+              <div class="stat-label">Avg Inference Time</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ─── Footer ───────────────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <a href="#" class="logo">
+          <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
+            <rect width="32" height="32" rx="10" fill="url(#logoGrad2)"/>
+            <path d="M6 20l4-8h12l4 8H6z" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+            <circle cx="10" cy="21.5" r="2" fill="#fff"/>
+            <circle cx="22" cy="21.5" r="2" fill="#fff"/>
+            <defs>
+              <linearGradient id="logoGrad2" x1="0" y1="0" x2="32" y2="32">
+                <stop stop-color="#5B5FFF"/>
+                <stop offset="1" stop-color="#9B59FF"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span class="logo-text">Car<span class="logo-accent">IQ</span></span>
+        </a>
+        <p class="footer-tagline">AI-powered vehicle price intelligence.</p>
+      </div>
+      <div class="footer-copy">
+        <p>Built with FastAPI + Ridge Regression &nbsp;·&nbsp; &copy; 2025 CarIQ</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ─── Toast Notification ───────────────────────────────────── -->
+  <div class="toast" id="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <svg class="toast-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M7 10l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    <span class="toast-message" id="toastMessage"></span>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
