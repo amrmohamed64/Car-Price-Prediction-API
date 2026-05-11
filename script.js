@@ -12,7 +12,7 @@ const API_HEALTH = `${API_BASE}/`;
 
 /* ─── Demo payload matching the FastAPI CarFeatures schema ─────────── */
 const DEMO_DATA = {
-  CarName: 'toyota corolla',
+  CarName: 'toyota',
   fueltype: 'gas',
   aspiration: 'std',
   doornumber: 'four',
@@ -213,8 +213,8 @@ function validateForm() {
   const errors = {};
 
   const carName = getFieldValue('CarName');
-  if (!carName || carName.trim().split(/\s+/).length < 1) {
-    errors['carName'] = 'Please enter a car name (e.g. "toyota corolla")';
+  if (!carName) {
+    errors['carName'] = 'Please select a car brand';
     valid = false;
   }
 
