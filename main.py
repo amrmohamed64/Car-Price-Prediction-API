@@ -1,5 +1,4 @@
 from fastapi import FastAPI, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 import numpy as np
 import pandas as pd
@@ -15,10 +14,11 @@ except FileNotFoundError as e:
 
 NUMERICAL_COLS = [
     "wheelbase", "carlength", "carwidth", "carheight", "curbweight",
-    "enginesize", "boreratio", "stroke", "compressionratio", "horsepower",
+    "enginesize", "boreratio", "stroke", "compressionratio",
     "peakrpm", "citympg", "highwaympg",
     "power_to_weight_ratio",   # engineered
     "log_enginesize",          # engineered
+    "log_horsepower",          # engineered (replaces raw horsepower)
 ]
 
 CATEGORICAL_COLS = [
@@ -58,7 +58,7 @@ class CarFeatures(BaseModel):
     boreratio:        float = Field(..., example=3.47)
     stroke:           float = Field(..., example=2.68)
     compressionratio: float = Field(..., example=9.0)
-    horsepower:       int   = Field(..., example=111)
+    horsepower:       int   = Field(..., example=111)  # used for feature engineering only
     peakrpm:          int   = Field(..., example=5000)
     citympg:          int   = Field(..., example=21)
     highwaympg:       int   = Field(..., example=27)
@@ -76,13 +76,6 @@ app = FastAPI(
     version="1.0.0",
 )
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
 
 def extract_brand(car_name: str) -> str:
     brand = car_name.strip().lower().split()[0]
@@ -95,6 +88,7 @@ def build_dataframe(car: CarFeatures) -> pd.DataFrame:
       1. Put all input fields into a DataFrame row
       2. Extract brand from CarName
       3. Apply feature engineering (same as training)
+      4. Drop raw horsepower — model was trained without it
     """
     data = car.model_dump()
     data["brand"] = extract_brand(data["CarName"])
@@ -103,6 +97,9 @@ def build_dataframe(car: CarFeatures) -> pd.DataFrame:
 
     row["power_to_weight_ratio"] = row["horsepower"] / row["curbweight"]
     row["log_enginesize"]        = np.log(row["enginesize"] + 1)
+    row["log_horsepower"]        = np.log(row["horsepower"] + 1)
+
+    row = row.drop(columns=["horsepower"])  # raw horsepower not in trained model
 
     return row
 
