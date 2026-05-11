@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 import numpy as np
 import pandas as pd
@@ -73,6 +74,13 @@ app = FastAPI(
     title="Car Price Prediction API",
     description="Predicts car prices for the American market using a Ridge Regression model trained on the Geely Auto dataset.",
     version="1.0.0",
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
