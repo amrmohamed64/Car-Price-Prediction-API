@@ -228,7 +228,7 @@ function validateForm() {
     { name: 'boreratio', min: 2, max: 5, label: 'Bore Ratio' },
     { name: 'stroke', min: 2, max: 5, label: 'Stroke' },
     { name: 'compressionratio', min: 6, max: 25, label: 'Compression Ratio' },
-    { name: 'horsepower', min: 40, max: 500, label: 'Horsepower' },
+    { name: 'horsepower', min: 40, max: 2000, label: 'Horsepower' },
     { name: 'peakrpm', min: 3000, max: 8000, label: 'Peak RPM' },
     { name: 'citympg', min: 10, max: 70, label: 'City MPG' },
     { name: 'highwaympg', min: 15, max: 80, label: 'Highway MPG' },
