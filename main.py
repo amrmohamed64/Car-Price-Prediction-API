@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 import numpy as np
+from fastapi.middleware.cors import CORSMiddleware
 import pandas as pd
 import joblib
 from scipy.sparse import hstack
@@ -76,6 +77,8 @@ app = FastAPI(
     version="1.0.0",
 )
 
+
+app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"],)
 
 def extract_brand(car_name: str) -> str:
     brand = car_name.strip().lower().split()[0]
